@@ -48,7 +48,7 @@ int8_t uart_init(uint32_t baud){
     if(baud > 115200){
         return UART_ERR_PARAM;
     }
-
+    // STM32 specific UART init code
     huart2.Instance = USART2;
     huart2.Init.BaudRate = baud;
     huart2.Init.WordLength = UART_WORDLENGTH_8B;
@@ -92,6 +92,7 @@ int8_t uart_receive(char* buf, uint8_t len){
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef* huart) {
+    // STM32 specific UART init callback code
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     if(huart->Instance == USART2) {
         __HAL_RCC_USART2_CLK_ENABLE();

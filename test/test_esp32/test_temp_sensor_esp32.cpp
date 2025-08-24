@@ -17,12 +17,14 @@ void tearDown(){
 }
 
 void test_uart_transmit(){
+    // This function tests if the string "dummy" can be transmitted correctly.
     char dummy[] = "dummy";
     int8_t stat = uart_transmit(dummy, sizeof(dummy));
     TEST_ASSERT_EQUAL(0, stat);
 };
 
 void test_uart_receive(){
+    // This function tests if a pending string in the UART peripheral can be read.
     char buf[RESPONSE_LEN];
     memset(buf, 0, RESPONSE_LEN);
     int8_t stat = uart_receive(buf, sizeof(buf));
@@ -31,6 +33,7 @@ void test_uart_receive(){
 };
 
 void test_get_temp(){
+    // This function tests if a temperature can be read from the sensor.
     int32_t t = get_temp();
     t /= 1000; // Sensor returns m°C
     // signature is (delta, expected, actual)

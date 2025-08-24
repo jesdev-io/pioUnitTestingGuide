@@ -8,6 +8,11 @@
 void SystemClock_Config(void);
 
 #ifdef __cplusplus
+/* A `extern "C"` guard is required because the source files for the sensor and UART
+are defined as .cpp files so they can be used with the Arduino framework for the ESP32.
+However, the STM32 needs to have its __weak functions overwritten by explicitly C-style
+functions, otherwise they are not linked properly (in this case the MCU time never increments.)
+*/
 extern "C"
 {
 #endif
@@ -30,12 +35,14 @@ void tearDown(){
 }
 
 void test_uart_transmit(){
+    // This function tests if the string "dummy" can be transmitted correctly.
     char dummy[] = "dummy";
     int8_t stat = uart_transmit(dummy, sizeof(dummy));
     TEST_ASSERT_EQUAL(0, stat);
 };
 
 void test_uart_receive(){
+    // This function tests if a pending string in the UART peripheral can be read.
     char buf[RESPONSE_LEN];
     memset(buf, 0, RESPONSE_LEN);
     int8_t stat = uart_receive(buf, sizeof(buf));
@@ -44,6 +51,7 @@ void test_uart_receive(){
 };
 
 void test_get_temp(){
+    // This function tests if a temperature can be read from the sensor.
     int32_t t = get_temp();
     t /= 1000; // Sensor returns m°C
     // signature is (delta, expected, actual)
@@ -54,9 +62,9 @@ void test_get_temp(){
 }
 
 int main(){
-    HAL_Init();
-    SystemClock_Config();
-    HAL_Delay(2000);
+    HAL_Init();             // Init the STM32 HAL
+    SystemClock_Config();   // Cnfigure clock tree (defined below)
+    HAL_Delay(2000);        // some hardware may need to settle first
 
 	UNITY_BEGIN(); // start a unit test session
 	RUN_TEST(test_uart_transmit);
@@ -67,6 +75,7 @@ int main(){
 }
 
 void SystemClock_Config(void){
+    // This function sets up the basic clock tree of the controller.
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 

@@ -1,0 +1,3 @@
+# `uart_ex` module
+
+This module implements *fake* UART reading and writing functions for the ESP32 and *actual* ones for the STM32. The functions for the ESP32 are fake because this repository acts as an educational guide and blueprint for unit tests. This way, you can run this code **without** having to connect any real peripherals or sensors. The code for the STM32 actually calls the HAL's functions for UART initialization and transmission. This is done to demonstrate PlatformIO's capability to define custom data transmission for the unity testing framework. **In essence:** The unit test for the STM32 MCU uses the data transmission both as test subject and method of test result communication.
