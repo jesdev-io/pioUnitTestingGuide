@@ -11,5 +11,5 @@ int32_t get_temp(){
         return TEMP_SENSOR_FAIL;
     }
     char dummy_return[] = "0020000"; // imagined return from the sensor
-    return atoi(buf); // convert string to integer
+    return atoi(dummy_return); // convert string to integer
 }

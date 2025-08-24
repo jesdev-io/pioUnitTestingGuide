@@ -1,6 +1,7 @@
-// test_temp_sensor.cpp
+// test_temp_sensor_esp32.cpp
 #include <Arduino.h>
 #include <unity.h>
+#include <memory.h>
 #include "ex_uart.h"
 #include "temp_sensor.h"
 
